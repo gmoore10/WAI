@@ -16,7 +16,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="forecast in forecasts" >
+                <tr v-for="forecast in forecasts" v-bind:key="forecast.id" >
                     <td>{{ forecast.dateFormatted }}</td>
                     <td>{{ forecast.temperatureC }}</td>
                     <td>{{ forecast.temperatureF }}</td>
@@ -25,7 +25,6 @@
             </tbody>
         </table>
         
-
     </div>
 </template>
 
@@ -50,14 +49,6 @@ export default {
         } catch (error) {
             console.log(error)
         }
-        // Old promise-based approach
-        //this.$http
-        //    .get('/api/SampleData/WeatherForecasts')
-        //    .then(response => {
-        //        console.log(response.data)
-        //        this.forecasts = response.data
-        //    })
-        //    .catch((error) => console.log(error))*/
     }
 }
 </script>
