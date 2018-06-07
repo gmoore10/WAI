@@ -4,6 +4,8 @@
 
         <p>Review your budgets and Spend</p>
 
+        <button type="button">Add Category</button>
+
         <table class="table">
             <thead>
                 <tr>
