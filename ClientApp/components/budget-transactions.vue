@@ -7,7 +7,7 @@
         <button type="button" id="addTransactionButton" v-if="!addTransactionFormVisible" v-on:click="addTransactionFormVisible = !addTransactionFormVisible">Add Transaction</button>
 
         <form v-else-if="addTransactionFormVisible" v-on:submit.prevent="addTransaction" action="" method="post">
-            <h2>Add Category</h2>
+            <h2>Add Transaction</h2>
             <label for="transactionName">Name: </label>
             <input type="text" name="transactionName" required id="transactionName" v-model="insertedTransactionName" ref="insertedTransactionName">
             <label for="transactionAmount">Amount: </label>
@@ -19,7 +19,7 @@
                       v-model="insertedDate">
             </kendo-datepicker>
 
-            <button type="submit">Add Category</button>
+            <button type="submit">Add Transaction</button>
             <button type="button" v-on:click="addTransactionFormVisible = !addTransactionFormVisible">Cancel</button>
         </form>
 
@@ -62,25 +62,6 @@
                 </kendo-grid-column>
             </kendo-grid>
         </div>
-
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Description</th>
-                    <th>Date</th>
-                    <th>Amount</th>
-                    <th>Budget Remaining</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="transaction in transactions" v-bind:key="transaction.id">
-                    <td>{{ transaction.name }}</td>
-                    <td>{{ convertDate(transaction.date) }}</td>
-                    <td>{{ convertCurrency(transaction.amount) }}</td>
-                    <td>{{ convertCurrency(transaction.budgetRemaining) }}</td>
-                </tr>
-            </tbody>
-        </table>
         
     </div>
 </template>
