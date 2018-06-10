@@ -5,11 +5,15 @@ import store from './store'
 import { sync } from 'vuex-router-sync'
 import App from 'components/app-root'
 
-import { KendoDatePicker, KendoDateinputsInstaller } from '@progress/kendo-dateinputs-vue-wrapper'
 import '@progress/kendo-theme-bootstrap/dist/all.css'
 import '@progress/kendo-ui'
+import { KendoDatePicker, KendoDateinputsInstaller } from '@progress/kendo-dateinputs-vue-wrapper'
+import { KendoGridColumn, KendoGrid, KendoGridInstaller } from '@progress/kendo-grid-vue-wrapper'
+import { KendoDataSource, KendoDataSourceInstaller } from '@progress/kendo-datasource-vue-wrapper'
 
 Vue.use(KendoDateinputsInstaller)
+Vue.use(KendoGridInstaller)
+Vue.use(KendoDataSourceInstaller)
 
 Vue.prototype.$http = axios;
 
@@ -20,7 +24,10 @@ const app = new Vue({
     router,
     ...App,
     components: {
-        KendoDatePicker
+        KendoDatePicker,
+        KendoGrid,
+        KendoGridColumn,
+        KendoDataSource
     }
 })
 

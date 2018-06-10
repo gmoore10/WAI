@@ -23,6 +23,46 @@
             <button type="button" v-on:click="addTransactionFormVisible = !addTransactionFormVisible">Cancel</button>
         </form>
 
+        <div class="grid">
+            <kendo-datasource
+                ref="datasource"
+                :type="'json'"
+                :pageSize="20"
+                :data="transactions">
+            </kendo-datasource>
+            <kendo-grid
+                :dataSourceRef="'datasource'"
+                :editable="'inline'"
+                @save="onSave"
+                @remove="onRemove"
+                :height="550"
+                :sortable="true"
+                :pageable-refresh="true"
+                :pageable-page-sizes="true"
+                :pageable-button-count="5">
+                <kendo-grid-column
+                    field="name"
+                    title="Descrip"
+                    :width="250">
+                </kendo-grid-column>
+                <kendo-grid-column
+                    field="date"
+                    title="Date">
+                </kendo-grid-column>
+                <kendo-grid-column
+                    field="amount"
+                    title="Amount">
+                </kendo-grid-column>
+                <kendo-grid-column
+                    field="budgetRemaining"
+                    title="Budget Remaining">
+                </kendo-grid-column>
+                <kendo-grid-column
+                    :command="['edit', 'destroy']">
+                </kendo-grid-column>
+            </kendo-grid>
+        </div>
+
         <table class="table">
             <thead>
                 <tr>
@@ -72,6 +112,18 @@ export default {
         },
         convertCurrency(value) {
             return kendo.toString(value, "c");
+        },
+        transactionsJSON() {
+            return JSON.stringify(this.$store.getters.transactions)
+        },
+        onSave(ev) {
+            console.log(ev)
+            ev.sender.refresh()
+        },
+        onRemove(ev) {
+            console.log(ev)
+            ev.sender.refresh()
+            this.$store.commit('deleteTransaction', ev.model.id)
         }
     },
 

@@ -26,6 +26,15 @@ const mutations = {
     },
     addTransaction(state, newTrans) {
         this.state.transactions.push(newTrans)
+    },
+    editTransaction(state, editedTrans) {
+
+    },
+    deleteTransaction(state, deletedId) {
+        const trans = state.transactions.find(trans => {
+            return trans.id == deletedId
+        })
+        state.transactions.splice(state.transactions.indexOf(trans), 1)
     }
 }
 
