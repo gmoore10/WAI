@@ -6,7 +6,7 @@
 
         <button type="button" id="addTransactionButton" v-if="!addTransactionFormVisible" v-on:click="addTransactionFormVisible = !addTransactionFormVisible">Add Transaction</button>
 
-        <form v-else-if="addTransactionFormVisible" v-on:submit.prevent="addCategory" action="" method="post">
+        <form v-else-if="addTransactionFormVisible" v-on:submit.prevent="addTransaction" action="" method="post">
             <h2>Add Category</h2>
             <label for="transactionName">Name: </label>
             <input type="text" name="transactionName" id="transactionName" v-model="insertedTransactionName" ref="insertedTransactionName">
@@ -15,7 +15,8 @@
             
             <kendo-datepicker 
                       :value="currentDate"
-                      :format="'MM/dd/yyyy'">
+                      :format="'MM/dd/yyyy'"
+                      v-model="insertedDate">
             </kendo-datepicker>
 
             <button type="submit">Add Category</button>
@@ -34,7 +35,7 @@
             <tbody>
                 <tr v-for="transaction in transactions" v-bind:key="transaction.id">
                     <td>{{ transaction.name }}</td>
-                    <td>{{ transaction.date }}</td>
+                    <td>{{ convertDate(transaction.date) }}</td>
                     <td>{{ transaction.amount }}</td>
                     <td>{{ transaction.budgetRemaining }}</td>
                 </tr>
@@ -51,6 +52,7 @@ export default {
             addTransactionFormVisible: false,
             insertedTransactionName: "",
             insertedTransactionAmount: 0.00,
+            insertedDate: new Date(),
             currentDate: new Date()
         }
     },
@@ -61,9 +63,12 @@ export default {
     },
 
     methods: {
-        addCategory () {
+        addTransaction () {
             let newTrans = { id: Math.floor(Math.random() * 1000000), name: this.insertedTransactionName, date: this.insertedDate, amount: this.insertedTransactionAmount }
             this.$store.commit('addTransaction', newTrans)
+        },
+        convertDate(date) {
+            return kendo.toString(date, "d")
         }
     },
 
