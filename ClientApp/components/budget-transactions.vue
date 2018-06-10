@@ -4,7 +4,23 @@
 
         <p>Go over and add transactions</p>
 
-        <button type="button">Add Transaction</button>
+        <button type="button" id="addTransactionButton" v-if="!addTransactionFormVisible" v-on:click="addTransactionFormVisible = !addTransactionFormVisible">Add Transaction</button>
+
+        <form v-else-if="addTransactionFormVisible" v-on:submit.prevent="addCategory" action="" method="post">
+            <h2>Add Category</h2>
+            <label for="transactionName">Name: </label>
+            <input type="text" name="transactionName" id="transactionName" v-model="insertedTransactionName" ref="insertedTransactionName">
+            <label for="transactionAmount">Amount: </label>
+            <input type="text" name="transactionAmount" id="transactionAmount" v-model="insertedTransactionAmount" ref="insertedTransactionAmount">
+            
+            <kendo-datepicker 
+                      :value="currentDate"
+                      :format="'MM/dd/yyyy'">
+            </kendo-datepicker>
+
+            <button type="submit">Add Category</button>
+            <button type="button" v-on:click="addTransactionFormVisible = !addTransactionFormVisible">Cancel</button>
+        </form>
 
         <table class="table">
             <thead>
@@ -16,35 +32,11 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>Publix Trip</td>
-                    <td>4/6/2018</td>
-                    <td>$182.56</td>
-                    <td>$117.44</td>
-                </tr>
-                <tr>
-                    <td>Weekend Party</td>
-                    <td>4/9/2018</td>
-                    <td>$441.22/td>
-                    <td>$(323.78)</td>
-                </tr>
-                <tr>
-                    <td>Weekend Party</td>
-                    <td>4/9/2018</td>
-                    <td>$441.22/td>
-                    <td>$(323.78)</td>
-                </tr>
-                <tr>
-                    <td>Weekend Party</td>
-                    <td>4/9/2018</td>
-                    <td>$441.22/td>
-                    <td>$(323.78)</td>
-                </tr>
-                <tr>
-                    <td>Weekend Party</td>
-                    <td>4/9/2018</td>
-                    <td>$441.22/td>
-                    <td>$(323.78)</td>
+                <tr v-for="transaction in transactions" v-bind:key="transaction.id">
+                    <td>{{ transaction.name }}</td>
+                    <td>{{ transaction.date }}</td>
+                    <td>{{ transaction.amount }}</td>
+                    <td>{{ transaction.budgetRemaining }}</td>
                 </tr>
             </tbody>
         </table>
@@ -56,11 +48,23 @@
 export default {
     data() {
         return {
-            forecasts: null
+            addTransactionFormVisible: false,
+            insertedTransactionName: "",
+            insertedTransactionAmount: 0.00,
+            currentDate: new Date()
+        }
+    },
+    computed: {
+        transactions() {
+            return this.$store.getters.transactions
         }
     },
 
     methods: {
+        addCategory () {
+            let newTrans = { id: Math.floor(Math.random() * 1000000), name: this.insertedTransactionName, date: this.insertedDate, amount: this.insertedTransactionAmount }
+            this.$store.commit('addTransaction', newTrans)
+        }
     },
 
     async created() {

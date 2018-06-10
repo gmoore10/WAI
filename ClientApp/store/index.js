@@ -11,6 +11,11 @@ const state = {
     categories: [
         {id: 1, name: "Mortgage", budgeted: 182.56, remaining: 117.44, avgspend: 150.41},
         {id: 2, name: "Auto Fuel", budgeted: 182.56, remaining: 117.44, avgspend: 150.41}
+    ],
+    transactions: [
+        { id: 1, name: "Publix Trip", date: "4/6/2018", amount: 182.56, budgetRemaining: 117.44 },
+        { id: 2, name: "Weekend Party", date: "4/9/2018", amount: 441.22, budgetRemaining: -323.78 },
+        { id: 3, name: "Weekend Party", date: "4/9/2018", amount: 150.00, budgetRemaining: -473.78 }
     ]
 }
 
@@ -18,6 +23,9 @@ const state = {
 const mutations = {
     addCategory(state, newCat) {
         this.state.categories.push(newCat)
+    },
+    addTransaction(state, newTrans) {
+        this.state.transactions.push(newTrans)
     }
 }
 
@@ -27,7 +35,8 @@ const actions = ({
 
 // GETTERS
 const getters = {
-    categories: state => state.categories
+    categories: state => state.categories,
+    transactions: state => state.transactions
 }
 
 export default new Vuex.Store({
