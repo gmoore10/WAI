@@ -16,25 +16,52 @@
             <button type="button" v-on:click="addCategoryFormVisible = !addCategoryFormVisible">Cancel</button>
         </form>
 
-
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Budgeted</th>
-                    <th>Remaining</th>
-                    <th>Avg Spent Past 3 Months</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="category in categories" v-bind:key="category.id">
-                    <td>{{ category.name }}</td>
-                    <td>${{ category.budgeted }}</td>
-                    <td>${{ category.remaining }}</td>
-                    <td>${{ category.avgspend }}</td>
-                </tr>
-            </tbody>
-        </table>
+        
+        <div class="grid">
+            <kendo-datasource
+                ref="datasource"
+                :type="'json'"
+                :pageSize="20"
+                :schema-model-id="'id'"
+                :schema-model-fields="schema"
+                :data="categories">
+            </kendo-datasource>
+            <kendo-grid
+                ref="grid"
+                :dataSourceRef="'datasource'"
+                :editable="'inline'"
+                @save="onSave"
+                @remove="onRemove"
+                :height="550"
+                :sortable="true"
+                :pageable-refresh="true"
+                :pageable-page-sizes="true"
+                :pageable-button-count="5">
+                <kendo-grid-column
+                    field="name"
+                    title="Name"
+                    :width="250">
+                </kendo-grid-column>
+                <kendo-grid-column
+                    field="budgeted"
+                    :format="'{0:c}'"
+                    title="Budgeted">
+                </kendo-grid-column>
+                <kendo-grid-column
+                    field="remaining"
+                    :format="'{0:c}'"
+                    title="Remaining">
+                </kendo-grid-column>
+                <kendo-grid-column
+                    field="avgspend"
+                    :format="'{0:c}'"
+                    title="Avg Spent Past 3 Months">
+                </kendo-grid-column>
+                <kendo-grid-column
+                    :command="['edit', 'destroy']">
+                </kendo-grid-column>
+            </kendo-grid>
+        </div>
         
     </div>
 </template>
@@ -45,7 +72,14 @@ export default {
         return {
             addCategoryFormVisible: false,
             insertedCategoryName: "",
-            insertedCategoryBudgeted: 0.00
+            insertedCategoryBudgeted: 0.00,
+            schema: {
+                id: { editable: false, nullable: false },
+                name: { validation: { required: true }},
+                budgeted: { editable: true, type: 'number', validation: { required: true, min: 1 }},
+                remaining: { editable: false, type: 'number' },
+                avgspend: { editable: false, type: 'number' }
+            }
         }
     },
     computed: {
@@ -56,8 +90,20 @@ export default {
 
     methods: {
         addCategory () {
-            let newCat = { id: Math.floor(Math.random() * 1000000), name: this.insertedCategoryName, budgeted: this.insertedCategoryBudgeted, remaining: 0.00, avgspend: 0.00 }
+            let newCat = { id: Math.floor(Math.random() * 1000000), name: this.insertedCategoryName, budgeted: this.insertedCategoryBudgeted, remaining: this.insertedCategoryBudgeted, avgspend: 0.00 }
             this.$store.commit('addCategory', newCat)
+            this.addCategoryFormVisible = false
+        },
+        onSave(ev) {
+            console.log(ev)
+            this.$store.commit('editCategory', { id: ev.model.id, name: ev.model.name, budgeted: ev.model.budgeted })
+            ev.sender.refresh()
+            console.log(ev.sender)
+        },
+        onRemove(ev) {
+            console.log(ev)
+            this.$store.commit('deleteCategory', ev.model.id)
+            ev.sender.refresh()
         }
     },
     async created() {

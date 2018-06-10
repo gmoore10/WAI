@@ -43,10 +43,16 @@
                 <kendo-grid-column
                     field="name"
                     title="Descrip"
-                    :width="250">
+                    :width="150">
                 </kendo-grid-column>
                 <kendo-grid-column
                     field="date"
+                    :format="'{0:d}'"
+                    title="Date">
+                </kendo-grid-column>
+                <kendo-grid-column
+                    field="category"
+                    :editor="dropdownEditor"
                     title="Date">
                 </kendo-grid-column>
                 <kendo-grid-column
@@ -58,11 +64,12 @@
                     title="Budget Remaining">
                 </kendo-grid-column>
                 <kendo-grid-column
-                    :command="['edit', 'destroy']">
+                    :command="['edit', 'destroy']"
+                    :width="200">
                 </kendo-grid-column>
             </kendo-grid>
         </div>
-        
+            
     </div>
 </template>
 
@@ -80,6 +87,9 @@ export default {
     computed: {
         transactions() {
             return this.$store.getters.transactions
+        },
+        categories() {
+            return this.$store.getters.categories
         }
     },
 
@@ -87,12 +97,7 @@ export default {
         addTransaction () {
             let newTrans = { id: Math.floor(Math.random() * 1000000), name: this.insertedTransactionName, date: this.insertedDate, amount: this.insertedTransactionAmount }
             this.$store.commit('addTransaction', newTrans)
-        },
-        convertDate(date) {
-            return kendo.toString(date, "d")
-        },
-        convertCurrency(value) {
-            return kendo.toString(value, "c");
+            this.addTransactionFormVisible = false
         },
         transactionsJSON() {
             return JSON.stringify(this.$store.getters.transactions)
@@ -106,6 +111,17 @@ export default {
             console.log(ev)
             this.$store.commit('deleteTransaction', ev.model.id)
             ev.sender.refresh()
+        },
+        customBoolEditor: function(container, options) {
+                var guid = kendo.guid();
+                kendo.jQuery('<input class="k-checkbox" id="' + guid + '" type="checkbox" name="Discontinued" data-type="boolean" data-bind="checked:Discontinued">').appendTo(container)
+                kendo.jQuery('<label class="k-checkbox-label" for="' + guid + '">&#8203;</label>').appendTo(container);
+        },
+        dropdownEditor() {
+            return '<kendo-combobox :data-source=' + '"categories"' +
+                    ":data-text-field=" + "'name'" + 
+                    ':data-value-field="' + "'id'" + '"' +
+                    ':placeholder="' + "'Select a Category'" + '"></kendo-combobox>'
         }
     },
 

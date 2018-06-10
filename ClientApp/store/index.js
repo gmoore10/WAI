@@ -24,6 +24,20 @@ const mutations = {
     addCategory(state, newCat) {
         this.state.categories.push(newCat)
     },
+    editCategory(state, editedCat) {
+        const cat = state.categories.find(cat => {
+            return cat.id == editedCat.id
+        })
+
+        state.categories.splice(state.categories.indexOf(cat), 1, editedCat)
+    },
+    deleteCategory(state, deletedId) {
+        const cat = state.categories.find(cat => {
+            return cat.id == deletedId
+        })
+
+        state.categories.splice(state.categories.indexOf(cat), 1)
+    },
     addTransaction(state, newTrans) {
         this.state.transactions.push(newTrans)
     },

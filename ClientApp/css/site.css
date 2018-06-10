@@ -64,3 +64,123 @@
         text-overflow: ellipsis;
     }
 }
+
+/***************************************/
+
+h1 {
+    display: block;
+    text-align: center;
+    margin-top: 50px;
+    font-size: 2rem;
+}
+
+.navbar {
+    background-color: #76323F;
+    margin: auto !important;
+}
+
+.nav {
+    margin: auto;
+    width: 50%;
+    left: 300px;
+}
+
+ul {
+    text-align: center;
+    padding: 10px;
+}
+
+li {
+    display: inline-block;
+}
+
+.menu {
+    background-color: #333076;
+}
+
+a {
+    color: #000;
+}
+
+nav {
+    font-size: 1.0rem;
+}
+
+nav a {
+    color: #ccc
+}
+
+nav .selected {
+    color: #fff
+}
+
+nav ul {
+    text-align: center;
+}
+
+nav ul > li {
+    display: inline-block;
+    margin: 20px;
+}
+
+section table {
+    color: #95989A;
+    font-size: 1rem;
+    margin: 50px auto;
+    text-align: center;
+}
+
+section table > thead > tr > th {
+    width: 175px;
+}
+
+table > tbody > tr > td {
+    vertical-align: middle
+}
+
+.linkButton {
+    border-radius: 3px 4px;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 300;
+    background-color: #333076;
+    padding: 10px 20px;
+    position: relative;
+}
+
+button {
+    top: 0px;
+    left: 0px;
+}
+
+form {
+    font-size: 1rem;
+    max-width: 800px;
+    margin: 50px auto;
+    text-align: center
+}
+
+label {
+    display: block;
+    padding: 2px;
+}
+
+input {
+    border: 1px solid #C5C5C5;
+    border-radius: 3px 4px;
+    padding: 5px;
+}
+
+.searchForm {
+    display: block;
+    text-align: center;
+    margin-top: 50px;
+    font-size: 1rem;
+}
+
+footer {
+    background-color: #333076;
+    padding: 10px;
+    color: #fff;
+    font-size: 1rem;
+}

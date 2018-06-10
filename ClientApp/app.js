@@ -10,10 +10,12 @@ import '@progress/kendo-ui'
 import { KendoDatePicker, KendoDateinputsInstaller } from '@progress/kendo-dateinputs-vue-wrapper'
 import { KendoGridColumn, KendoGrid, KendoGridInstaller } from '@progress/kendo-grid-vue-wrapper'
 import { KendoDataSource, KendoDataSourceInstaller } from '@progress/kendo-datasource-vue-wrapper'
+import { KendoComboBox, KendoDropdownsInstaller } from '@progress/kendo-dropdowns-vue-wrapper'
 
 Vue.use(KendoDateinputsInstaller)
 Vue.use(KendoGridInstaller)
 Vue.use(KendoDataSourceInstaller)
+Vue.use(KendoDropdownsInstaller)
 
 Vue.prototype.$http = axios;
 
@@ -27,7 +29,8 @@ const app = new Vue({
         KendoDatePicker,
         KendoGrid,
         KendoGridColumn,
-        KendoDataSource
+        KendoDataSource,
+        KendoComboBox
     }
 })
 
