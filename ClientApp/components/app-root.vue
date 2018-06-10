@@ -15,14 +15,12 @@
 
 <script>
 import Vue from 'vue'
-import HomePage from './home-page'
 import NavMenu from './nav-menu'
 import BudgetCategories from './budget-categories'
 import BudgetTransactions from './budget-transactions'
 import ReportsAnnual from './reports-annual'
 import ReportsCurrentMonth from './reports-currentmonth'
 
-Vue.component('home-page', HomePage);
 Vue.component('nav-menu', NavMenu);
 Vue.component('budget-categories', BudgetCategories)
 Vue.component('budget-transactions', BudgetTransactions)

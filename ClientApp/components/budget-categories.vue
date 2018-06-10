@@ -4,13 +4,18 @@
 
         <p>Review your budgets and Spend</p>
 
-        <form v-on:submit.prevent="addCategory" action="" method="post">
+        <button type="button" id="addCategoryButton" v-if="!addCategoryFormVisible" v-on:click="addCategoryFormVisible = !addCategoryFormVisible">Add Category</button>
+
+        <form v-else-if="addCategoryFormVisible" v-on:submit.prevent="addCategory" action="" method="post">
             <h2>Add Category</h2>
+            <label for="categoryName">Name: </label>
             <input type="text" name="categoryName" id="categoryName" v-model="insertedCategoryName" ref="insertedCategoryName">
+            <label for="categoryBudgeted">Budgeted: </label>
+            <input type="text" name="categoryBudgeted" id="categoryBudgeted" v-model="insertedCategoryBudgeted" ref="insertedCategoryBudgeted">
             <button type="submit">Add Category</button>
+            <button type="button" v-on:click="addCategoryFormVisible = !addCategoryFormVisible">Cancel</button>
         </form>
 
-        <button type="button" id="addCategoryButton">Add Category</button>
 
         <table class="table">
             <thead>
@@ -38,29 +43,29 @@
 export default {
     data() {
         return {
-            forecasts: null,
+            addCategoryFormVisible: false,
             insertedCategoryName: "",
-            categories: [
-                {id: 1, name: "Mortgage", budgeted: 182.56, remaining: 117.44, avgspend: 150.41},
-                {id: 2, name: "Auto Fuel", budgeted: 182.56, remaining: 117.44, avgspend: 150.41}
-                // {id: 3, name: "Mortgage", budgeted: 182.56, remaining: 117.44, avgspend: 150.41},
-                // {id: 4, name: "Mortgage", budgeted: 182.56, remaining: 117.44, avgspend: 150.41},
-            ]
+            insertedCategoryBudgeted: 0.00
+        }
+    },
+    computed: {
+        categories() {
+            return this.$store.getters.categories
         }
     },
 
     methods: {
-        addCategory: (event) => {
+        addCategory (event) {
             //this.insertedCategoryName = this.$refs.insertedCategoryName
-            console.log("Category Added")
-            //console.log(this.insertedCategoryName)
-            console.log(event.target[0].value)
-        },
+            console.log(this.insertedCategoryName)
+            let newCat = { id: Math.random() * 1000000, name: this.insertedCategoryName, budgeted: this.insertedCategoryBudgeted, remaining: 0.00, avgspend: 0.00 }
+            this.$store.state.categories.push(newCat)
+        }
     },
     async created() {
         // ES2017 async/await syntax via babel-plugin-transform-async-to-generator
         // TypeScript can also transpile async/await down to ES5
-        
+        console.log(this.$store.getters.categories)
     }
 }
 </script>
