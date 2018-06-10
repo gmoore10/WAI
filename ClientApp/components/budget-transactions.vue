@@ -118,12 +118,13 @@ export default {
         },
         onSave(ev) {
             console.log(ev)
+            this.$store.commit('editTransaction', { id: ev.model.id, name: ev.model.name, date: ev.model.date, amount: ev.model.amount, budgetRemaining: ev.model.budgetRemaining})
             ev.sender.refresh()
         },
         onRemove(ev) {
             console.log(ev)
-            ev.sender.refresh()
             this.$store.commit('deleteTransaction', ev.model.id)
+            ev.sender.refresh()
         }
     },
 
