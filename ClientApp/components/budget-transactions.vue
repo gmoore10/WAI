@@ -9,11 +9,11 @@
         <form v-else-if="addTransactionFormVisible" v-on:submit.prevent="addTransaction" action="" method="post">
             <h2>Add Category</h2>
             <label for="transactionName">Name: </label>
-            <input type="text" name="transactionName" id="transactionName" v-model="insertedTransactionName" ref="insertedTransactionName">
+            <input type="text" name="transactionName" required id="transactionName" v-model="insertedTransactionName" ref="insertedTransactionName">
             <label for="transactionAmount">Amount: </label>
-            <input type="text" name="transactionAmount" id="transactionAmount" v-model="insertedTransactionAmount" ref="insertedTransactionAmount">
+            <input type="text" name="transactionAmount" required id="transactionAmount" v-model="insertedTransactionAmount" ref="insertedTransactionAmount">
             
-            <kendo-datepicker 
+            <kendo-datepicker required
                       :value="currentDate"
                       :format="'MM/dd/yyyy'"
                       v-model="insertedDate">
@@ -36,8 +36,8 @@
                 <tr v-for="transaction in transactions" v-bind:key="transaction.id">
                     <td>{{ transaction.name }}</td>
                     <td>{{ convertDate(transaction.date) }}</td>
-                    <td>{{ transaction.amount }}</td>
-                    <td>{{ transaction.budgetRemaining }}</td>
+                    <td>{{ convertCurrency(transaction.amount) }}</td>
+                    <td>{{ convertCurrency(transaction.budgetRemaining) }}</td>
                 </tr>
             </tbody>
         </table>
@@ -51,7 +51,7 @@ export default {
         return {
             addTransactionFormVisible: false,
             insertedTransactionName: "",
-            insertedTransactionAmount: 0.00,
+            insertedTransactionAmount: null,
             insertedDate: new Date(),
             currentDate: new Date()
         }
@@ -69,6 +69,9 @@ export default {
         },
         convertDate(date) {
             return kendo.toString(date, "d")
+        },
+        convertCurrency(value) {
+            return kendo.toString(value, "c");
         }
     },
 
