@@ -55,17 +55,15 @@ export default {
     },
 
     methods: {
-        addCategory (event) {
-            //this.insertedCategoryName = this.$refs.insertedCategoryName
-            console.log(this.insertedCategoryName)
-            let newCat = { id: Math.random() * 1000000, name: this.insertedCategoryName, budgeted: this.insertedCategoryBudgeted, remaining: 0.00, avgspend: 0.00 }
-            this.$store.state.categories.push(newCat)
+        addCategory () {
+            let newCat = { id: Math.floor(Math.random() * 1000000), name: this.insertedCategoryName, budgeted: this.insertedCategoryBudgeted, remaining: 0.00, avgspend: 0.00 }
+            this.$store.commit('addCategory', newCat)
         }
     },
     async created() {
         // ES2017 async/await syntax via babel-plugin-transform-async-to-generator
         // TypeScript can also transpile async/await down to ES5
-        console.log(this.$store.getters.categories)
+        console.log(this.categories)
     }
 }
 </script>

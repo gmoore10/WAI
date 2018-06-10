@@ -16,6 +16,9 @@ const state = {
 
 // MUTATIONS
 const mutations = {
+    addCategory(state, newCat) {
+        this.state.categories.push(newCat)
+    }
 }
 
 // ACTIONS
