@@ -12,12 +12,15 @@
             <input type="text" name="transactionName" required id="transactionName" v-model="insertedTransactionName" ref="insertedTransactionName">
             <label for="transactionAmount">Amount: </label>
             <input type="text" name="transactionAmount" required id="transactionAmount" v-model="insertedTransactionAmount" ref="insertedTransactionAmount">
-            
+            <label for="transactionDate">Date: </label>
             <kendo-datepicker required
+                      name="transactionDate"
                       :value="currentDate"
                       :format="'MM/dd/yyyy'"
                       v-model="insertedDate">
             </kendo-datepicker>
+            
+            <budget-category-dropdown id="categoryId" v-on:itemChanged="categoryChangeDetected" v-model="insertedCategoryId" ref="insertedCategoryId"></budget-category-dropdown>
 
             <button type="submit">Add Transaction</button>
             <button type="button" v-on:click="addTransactionFormVisible = !addTransactionFormVisible">Cancel</button>
@@ -101,14 +104,13 @@ export default {
 
     methods: {
         categoryName(dataItem) {
-            console.log(dataItem)
-            /*console.log("Data Item: " + JSON.stringify(dataItem))
-            console.log("Category ID: " + dataItem.category)*/
-            console.log(dataItem.category)
             return this.$store.getters.categories.filter(x => x.id == dataItem.category)[0].name
         },
+        categoryChangeDetected(a, b, c, d, e, f) {
+            this.insertedCategoryId = parseInt(a.sender.dataSource.options.data[parseInt(a.sender.selectedIndex)].id)
+        },
         addTransaction () {
-            let newTrans = { id: Math.floor(Math.random() * 1000000), name: this.insertedTransactionName, date: this.insertedDate, amount: this.insertedTransactionAmount }
+            let newTrans = { id: Math.floor(Math.random() * 1000000), name: this.insertedTransactionName, date: this.insertedDate, amount: parseInt(this.insertedTransactionAmount), category: this.insertedCategoryId }
             this.$store.commit('addTransaction', newTrans)
             this.addTransactionFormVisible = false
         },
@@ -174,4 +176,7 @@ export default {
 </script>
 
 <style>
+label {
+    display: inline-block;
+}
 </style>

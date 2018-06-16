@@ -22,37 +22,21 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>Mortgage</td>
-                    <td>$950.00</td>
-                    <td>$950.00</td>
-                    <td>$950.00</td>
-                    <td>$950.00</td>
-                    <td>$950.00</td>
-                    <td>$950.00</td>
-                    <td>$950.00</td>
-                    <td>$950.00</td>
-                    <td>$950.00</td>
-                    <td>$950.00</td>
-                    <td>$950.00</td>
-                    <td>$950.00</td>
+                <tr v-for="category in this.$store.getters.categories" v-bind:key="category.id">
+                    <td>{{ category.name }}</td>
+                    <td>{{ transactions("January", 2018, category.id) }}</td>
+                    <td>{{ transactions("February", 2018, category.id) }}</td>
+                    <td>{{ transactions("March", 2018, category.id) }}</td>
+                    <td>{{ transactions("April", 2018, category.id) }}</td>
+                    <td>{{ transactions("May", 2018, category.id) }}</td>
+                    <td>{{ transactions("June", 2018, category.id) }}</td>
+                    <td>{{ transactions("July", 2018, category.id) }}</td>
+                    <td>{{ transactions("August", 2018, category.id) }}</td>
+                    <td>{{ transactions("September", 2018, category.id) }}</td>
+                    <td>{{ transactions("October", 2018, category.id) }}</td>
+                    <td>{{ transactions("November", 2018, category.id) }}</td>
+                    <td>{{ transactions("December", 2018, category.id) }}</td>
                     <td>$11,400.00</td>
-                </tr>
-                <tr>
-                    <td>Auto Fuel</td>
-                    <td>$100.00</td>
-                    <td>$100.00</td>
-                    <td>$100.00</td>
-                    <td>$100.00</td>
-                    <td>$100.00</td>
-                    <td>$100.00</td>
-                    <td>$100.00</td>
-                    <td>$100.00</td>
-                    <td>$100.00</td>
-                    <td>$100.00</td>
-                    <td>$100.00</td>
-                    <td>$100.00</td>
-                    <td>$1,200.00</td>
                 </tr>
             </tbody>
             <tfoot>
@@ -85,13 +69,39 @@ export default {
             forecasts: null
         }
     },
-
+    computed: {
+        categories() {
+            return this.$store.getters.categories
+        }
+    },
     methods: {
+        transactions(month, year, category) {
+            const reducer = (accumulator, currentValue) => accumulator[amount] + currentValue
+            console.log(kendo.toString(kendo.parseDate(this.$store.getters.transactions[0].date), "yyyy"))
+            console.log(kendo.toString(kendo.parseDate(this.$store.getters.transactions[0].date), "MMMM"))
+            let trans = this.$store.getters.transactions
+                .filter(x => kendo.toString(kendo.parseDate(x.date), "MMMM") == month && kendo.toString(kendo.parseDate(x.date), "yyyy") == year && x.category == category)
+            if(trans.length > 0) {
+                let total = trans.sum("amount")
+                console.log(trans)
+                return kendo.toString(total, "c")
+            } else {
+                return  kendo.toString(0, "c")
+            }
+        }
     },
 
     async created() {
         // ES2017 async/await syntax via babel-plugin-transform-async-to-generator
         // TypeScript can also transpile async/await down to ES5
+
+        Array.prototype.sum = function (prop) {
+            var total = 0
+            for ( var i = 0, _len = this.length; i < _len; i++ ) {
+                total += this[i][prop]
+            }
+            return total
+        }
         
     }
 }

@@ -4,6 +4,7 @@
         :data-text-field="'name'"
         :data-value-field="'id'"
         :filter="'contains'"
+        v-on:change="onChange"
         :placeholder="'Select Category...'">
     </kendo-combobox>
 </template>
@@ -17,6 +18,11 @@ export default {
     computed: {
         categories() {
             return this.$store.getters.categories
+        }
+    },
+    methods: {
+        onChange(value) {
+            this.$emit('itemChanged', value)
         }
     }
 }
