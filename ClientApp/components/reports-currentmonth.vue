@@ -4,7 +4,7 @@
 
         <p>Review your monthly spend</p>
 
-        <button type="button">Go to Annual Breakdown</button>
+        
 
         <kendo-chart ref="chart"
                  :title-text="'Share of Internet Population Growth, 2007 - 2012'"

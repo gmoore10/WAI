@@ -70,7 +70,6 @@
                 </kendo-grid-column>
             </kendo-grid>
         </div>
-        <component is="budget-category-dropdown"></component>
     </div>
 </template>
 
