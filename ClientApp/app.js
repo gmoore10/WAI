@@ -13,12 +13,15 @@ import { KendoGridColumn, KendoGrid, KendoGridInstaller } from '@progress/kendo-
 import { KendoDataSource, KendoDataSourceInstaller } from '@progress/kendo-datasource-vue-wrapper'
 import { KendoComboBox, KendoDropdownsInstaller } from '@progress/kendo-dropdowns-vue-wrapper'
 import { Chart, ChartSeriesItem, StockChart, Sparkline, SparklineSeriesItem, ChartInstaller } from '@progress/kendo-charts-vue-wrapper'
+import BudgetCategoryDropDown from './components/interface/budget-category-dropdown'
 
 Vue.use(KendoDateinputsInstaller)
 Vue.use(KendoGridInstaller)
 Vue.use(KendoDataSourceInstaller)
 Vue.use(KendoDropdownsInstaller)
 Vue.use(ChartInstaller)
+
+Vue.use(BudgetCategoryDropDown)
 
 Vue.prototype.$http = axios;
 
@@ -34,7 +37,8 @@ const app = new Vue({
         KendoGridColumn,
         KendoDataSource,
         KendoComboBox,
-        Chart
+        Chart,
+        BudgetCategoryDropDown
     }
 })
 

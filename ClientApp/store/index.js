@@ -13,9 +13,9 @@ const state = {
         {id: 2, name: "Auto Fuel", budgeted: 182.56, remaining: 117.44, avgspend: 150.41}
     ],
     transactions: [
-        { id: 1, name: "Publix Trip", date: "4/6/2018", amount: 182.56, budgetRemaining: 117.44 },
-        { id: 2, name: "Weekend Party", date: "4/9/2018", amount: 441.22, budgetRemaining: -323.78 },
-        { id: 3, name: "Weekend Party", date: "4/9/2018", amount: 150.00, budgetRemaining: -473.78 }
+        { id: 1, name: "Publix Trip", date: "4/6/2018", category: 1, amount: 182.56, budgetRemaining: 117.44 },
+        { id: 2, name: "Weekend Party", date: "4/9/2018", category: 2, amount: 441.22, budgetRemaining: -323.78 },
+        { id: 3, name: "Weekend Party", date: "4/9/2018", category: 2, amount: 150.00, budgetRemaining: -473.78 }
     ]
 }
 
