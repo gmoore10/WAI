@@ -36,25 +36,25 @@
                     <td>{{ transactions("October", 2018, category.id) }}</td>
                     <td>{{ transactions("November", 2018, category.id) }}</td>
                     <td>{{ transactions("December", 2018, category.id) }}</td>
-                    <td>$11,400.00</td>
+                    <td>{{ transactions(null, 2018, category.id) }}</td>
                 </tr>
             </tbody>
             <tfoot>
                 <tr>
                     <th>Total: </th>
-                    <th>$1,050.00</th>
-                    <th>$1,050.00</th>
-                    <th>$1,050.00</th>
-                    <th>$1,050.00</th>
-                    <th>$1,050.00</th>
-                    <th>$1,050.00</th>
-                    <th>$1,050.00</th>
-                    <th>$1,050.00</th>
-                    <th>$1,050.00</th>
-                    <th>$1,050.00</th>
-                    <th>$1,050.00</th>
-                    <th>$1,050.00</th>
-                    <th>$12,600.00</th>
+                    <th>{{ transactions("January", 2018, null) }}</th>
+                    <th>{{ transactions("February", 2018, null) }}</th>
+                    <th>{{ transactions("March", 2018, null) }}</th>
+                    <th>{{ transactions("April", 2018, null) }}</th>
+                    <th>{{ transactions("May", 2018, null) }}</th>
+                    <th>{{ transactions("June", 2018, null) }}</th>
+                    <th>{{ transactions("July", 2018, null) }}</th>
+                    <th>{{ transactions("August", 2018, null) }}</th>
+                    <th>{{ transactions("September", 2018, null) }}</th>
+                    <th>{{ transactions("October", 2018, null) }}</th>
+                    <th>{{ transactions("November", 2018, null) }}</th>
+                    <th>{{ transactions("December", 2018, null) }}</th>
+                    <th>{{ transactions(null, 2018, null) }}</th>
                 </tr>
             </tfoot>
         </table>
@@ -80,7 +80,16 @@ export default {
             console.log(kendo.toString(kendo.parseDate(this.$store.getters.transactions[0].date), "yyyy"))
             console.log(kendo.toString(kendo.parseDate(this.$store.getters.transactions[0].date), "MMMM"))
             let trans = this.$store.getters.transactions
-                .filter(x => kendo.toString(kendo.parseDate(x.date), "MMMM") == month && kendo.toString(kendo.parseDate(x.date), "yyyy") == year && x.category == category)
+            if(month !== null) {
+                trans = trans.filter(x => kendo.toString(kendo.parseDate(x.date), "MMMM") == month)
+            }
+            if(year !== null) {
+                trans = trans.filter(x => kendo.toString(kendo.parseDate(x.date), "yyyy") == year)
+            }
+            if(category !== null) {
+                trans = trans.filter(x => x.category == category)
+            }
+
             if(trans.length > 0) {
                 let total = trans.sum("amount")
                 console.log(trans)
