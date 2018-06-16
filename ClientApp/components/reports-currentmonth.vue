@@ -2,12 +2,9 @@
     <div>
         <h1>Current Month Spend</h1>
 
-        <p>Review your monthly spend</p>
-
-        
 
         <kendo-chart ref="chart"
-                 :title-text="'Share of Internet Population Growth, 2007 - 2012'"
+                 :title-text="'Total Spending by Category, June 2018'"
                  :title-position="'bottom'"
                  :chart-area-background="''"
                  :legend-visible="false"
@@ -25,39 +22,34 @@
 export default {
     data() {
         return {
-            labeltemplate: '#= category # #= value #%',
+            labeltemplate: '#= category # $#= value #',
             series: [{
                 type: 'pie',
                 startAngle: 150,
                 data: [{
-                    category: 'Asia',
-                    value: 53.8,
-                    color: '#9de219'
+                    category: 'Mortgage',
+                    value: 1500,
+                    color: '#76323F'
                 },
                 {
-                    category: 'Europe',
-                    value: 16.1,
-                    color: '#90cc38'
+                    category: 'Auto Fuel',
+                    value: 160.1,
+                    color: '#AE3644'
                 },
                 {
-                    category: 'Latin America',
-                    value: 11.3,
-                    color: '#068c35'
+                    category: 'Category 3',
+                    value: 22.13,
+                    color: '#FF6C88'
                 },
                 {
-                    category: 'Africa',
-                    value: 9.6,
-                    color: '#006634'
+                    category: 'Category 4',
+                    value: 220.45,
+                    color: '#401B22'
                 },
                 {
-                    category: 'Middle East',
-                    value: 5.2,
-                    color: '#004d38'
-                },
-                {
-                    category: 'North America',
-                    value: 3.6,
-                    color: '#033939'
+                    category: 'Category 5',
+                    value: 561.11,
+                    color: '#E57F7B'
                 }]
             }]
         }

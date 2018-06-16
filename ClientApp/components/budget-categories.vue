@@ -96,7 +96,7 @@ export default {
         },
         onSave(ev) {
             console.log(ev)
-            this.$store.commit('editCategory', { id: ev.model.id, name: ev.model.name, budgeted: ev.model.budgeted })
+            this.$store.commit('editCategory', { id: ev.model.id, name: ev.model.name, budgeted: ev.model.budgeted, remaining: ev.model.remaining, avgspend: ev.model.avgspend })
             ev.sender.refresh()
             console.log(ev.sender)
         },
@@ -115,4 +115,8 @@ export default {
 </script>
 
 <style>
+.k-state-selected {
+    background-color: #76323F !important;
+    border-color: #76323F !important
+}
 </style>
