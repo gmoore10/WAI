@@ -105,17 +105,15 @@ export default {
             this.$store.commit('deleteCategory', ev.model.id)
             ev.sender.refresh()
         },
-        getBudgetTransactions() {
+        getBudgetCategories() {
             this.$store.dispatch('getBudgetCategories').then(() => {
-                console.log("Component Ran getBudgetTransactions")
             })
         }
     },
     async created() {
         // ES2017 async/await syntax via babel-plugin-transform-async-to-generator
         // TypeScript can also transpile async/await down to ES5
-        this.getBudgetTransactions()
-        console.log(this.categories)
+        this.getBudgetCategories()
     }
 }
 </script>

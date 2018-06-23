@@ -12,9 +12,6 @@ const state = {
     categories: [
     ],
     transactions: [
-        { id: 1, name: "Publix Trip", date: "4/6/2018", category: 1, amount: 182.56, budgetRemaining: 117.44 },
-        { id: 2, name: "Weekend Party", date: "4/9/2018", category: 2, amount: 441.22, budgetRemaining: -323.78 },
-        { id: 3, name: "Weekend Party", date: "4/9/2018", category: 2, amount: 150.00, budgetRemaining: -473.78 }
     ],
     chartOptions: {
         labeltemplate: '#= category # #= value #%',
@@ -90,12 +87,16 @@ const mutations = {
         })
         state.transactions.splice(state.transactions.indexOf(trans), 1)
     },
-    alterStateBudgetCategories(state, allCats) {
+    getBudgetCategories(state, allCats) {
         state.categories = []
-        console.log(allCats)
         Array.from(allCats).forEach(function(element) {
-            console.log(element)
             state.categories.push(element)
+        })
+    },
+    getTransactions(state, allTrans) {
+        state.transactions = []
+        Array.from(allTrans).forEach(function(element) {
+            state.transactions.push(element)
         })
     }
 }
@@ -105,10 +106,18 @@ const actions = ({
     async getBudgetCategories() {
         try {
             let response = await axios.get('/api/budgetcategory')
-            this.commit('alterStateBudgetCategories', response.data)
+            this.commit('getBudgetCategories', response.data)
         }
         catch (err) {
-            window.alert(err)
+            console.log(err)
+        }
+    },
+    async getTransactions() {
+        try {
+            let response = await axios.get('/api/budgettransaction')
+            this.commit('getTransactions', response.data)
+        }
+        catch (err) {
             console.log(err)
         }
     }

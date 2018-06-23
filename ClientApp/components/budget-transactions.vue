@@ -103,8 +103,12 @@ export default {
     },
 
     methods: {
+        getBudgetTransactions() {
+            this.$store.dispatch('getTransactions').then(() => {
+            })
+        },
         categoryName(dataItem) {
-            return this.$store.getters.categories.filter(x => x.id == dataItem.category)[0].name
+            return this.$store.getters.categories.filter(x => x.id == dataItem.categoryId)[0].name
         },
         categoryChangeDetected(a, b, c, d, e, f) {
             this.insertedCategoryId = parseInt(a.sender.dataSource.options.data[parseInt(a.sender.selectedIndex)].id)
@@ -155,22 +159,18 @@ export default {
             let closeSelect = "</select>"
 
             kendo.jQuery(openSelect + selectOptions + closeSelect).appendTo(container)
-            
-           /*********************** FIRST WORKING VERSION ABOVE - NO COMBOBOX JUST A DROPDOWN */
-            /*
-            kendo.jQuery('<kendo-combobox id="' + guid +  '"data-bind="value:category"' + '":data-source="categories"' +
-                    ":data-text-field=" + "'name'" + 
-                    ':data-value-field="' + "'id'" + '"' +
-                    'data-bind="insertedCategoryId"' +
-                    ':placeholder="' + "'Select a Category'" + '"></kendo-combobox>').appendTo(container)
-            */
         }
+    },
+    beforeRouteEnter (to, from, next) {
+        next(vm => {
+            vm.$store.dispatch('getBudgetCategories').then(() => {
+                next()  
+            })
+        })
     },
 
     async created() {
-        // ES2017 async/await syntax via babel-plugin-transform-async-to-generator
-        // TypeScript can also transpile async/await down to ES5
-        
+        this.getBudgetTransactions()        
     }
 }
 </script>
