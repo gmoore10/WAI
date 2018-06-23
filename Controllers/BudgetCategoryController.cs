@@ -11,9 +11,21 @@ namespace WAI.Controllers
     {
         // GET api/values
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IEnumerable<BudgetCategory> Get()
         {
-            return new string[] { "value1", "value2" };
+            /*
+            {id: 1, name: "Mortgage", budgeted: 182.56, remaining: 117.44, avgspend: 150.41},
+            {id: 2, name: "Auto Fuel", budgeted: 182.56, remaining: 117.44, avgspend: 150.41} */
+
+            BudgetCategory bgt1 = new BudgetCategory() { Id = 1, Name = "Mortgage", Budgeted = 182.56m, Remaining = 117.44m, AvgSpend = 150.41m };
+            BudgetCategory bgt2 = new BudgetCategory() { Id = 2, Name = "Auto Fuel", Budgeted = 150.56m, Remaining = 121.44m, AvgSpend = 150.42m };
+            
+            List<BudgetCategory> list = new List<BudgetCategory>();
+
+            list.Add(bgt1);
+            list.Add(bgt2);
+
+            return list;
         }
 
         // GET api/values/5
@@ -40,5 +52,12 @@ namespace WAI.Controllers
         public void Delete(int id)
         {
         }
+    }
+    public class BudgetCategory {
+        public int Id { get; set; }
+        public String Name { get; set; }
+        public decimal Budgeted { get; set; }
+        public decimal Remaining { get; set; }
+        public decimal AvgSpend { get; set; }
     }
 }

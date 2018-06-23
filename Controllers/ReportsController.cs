@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace WAI.Controllers
 {
     [Route("api/[controller]")]
-    public class ReportsController : Controller
+    public class ReportsController : ControllerBase
     {
         // GET api/values
         [HttpGet]
