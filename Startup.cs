@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using WAI.Data;
 
 namespace WAI
 {
@@ -29,6 +30,11 @@ namespace WAI
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
+            using (var context = new ApplicationDbContext())
+            {
+                //Make sure we have the database
+                context.Database.EnsureCreated();
+            }
             services.AddMvc();
         }
 
