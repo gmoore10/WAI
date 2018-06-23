@@ -53,7 +53,7 @@
                     title="Remaining">
                 </kendo-grid-column>
                 <kendo-grid-column
-                    field="avgspend"
+                    field="avgSpend"
                     :format="'{0:c}'"
                     title="Avg Spent Past 3 Months">
                 </kendo-grid-column>
@@ -78,7 +78,7 @@ export default {
                 name: { validation: { required: true }},
                 budgeted: { editable: true, type: 'number', validation: { required: true, min: 1 }},
                 remaining: { editable: false, type: 'number' },
-                avgspend: { editable: false, type: 'number' }
+                avgSpend: { editable: false, type: 'number' }
             }
         }
     },

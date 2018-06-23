@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -10,14 +11,14 @@ namespace WAI
     {
         public int Id { get; set; }
         [MaxLength(255)]
+        [Required]
         public string Name { get; set; }
         [Column(TypeName="Money")]
-        public decimal Budgeted { get; set; }
-        [Column(TypeName="Money")]
-        public decimal Remaining { get; set; }
-        [NotMapped]
-        public decimal AvgSpend { get; set; }
-
+        [Required]
+        public decimal Amount { get; set; }
+        [Required]
+        public DateTime TransactionDate { get; set; }
+        public int BudgetCategoryId { get; set; }
         public BudgetCategoryDataModel BudgetCategory { get; set; }
 
     }

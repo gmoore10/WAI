@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using WAI.Data;
 
 namespace WAI.Controllers
 {
@@ -11,21 +12,50 @@ namespace WAI.Controllers
     {
         // GET api/values
         [HttpGet]
-        public IEnumerable<BudgetCategory> Get()
+        public IEnumerable<BudgetCategoryDataModel> Get()
         {
-            /*
-            {id: 1, name: "Mortgage", budgeted: 182.56, remaining: 117.44, avgspend: 150.41},
-            {id: 2, name: "Auto Fuel", budgeted: 182.56, remaining: 117.44, avgspend: 150.41} */
+            List<BudgetCategoryDataModel> list = new List<BudgetCategoryDataModel>();
 
-            BudgetCategory bgt1 = new BudgetCategory() { Id = 1, Name = "Mortgage", Budgeted = 182.56m, Remaining = 117.44m, AvgSpend = 150.41m };
-            BudgetCategory bgt2 = new BudgetCategory() { Id = 2, Name = "Auto Fuel", Budgeted = 150.56m, Remaining = 121.44m, AvgSpend = 150.42m };
-            
-            List<BudgetCategory> list = new List<BudgetCategory>();
+            ApplicationDbContext ctx = new ApplicationDbContext();
 
-            list.Add(bgt1);
-            list.Add(bgt2);
+            DateTime earliestTransDate = new DateTime(DateTime.Now.Year, DateTime.Now.AddMonths(-3).Month, 1);
+            DateTime latestTransactionDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
 
-            return list;
+            DateTime beginOfMonth = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+            DateTime endOfMonth = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1).AddMonths(1);
+
+            var query = from c in ctx.BudgetCategories
+                        select c;
+
+            var query2 = from c in query
+                         select new BudgetCategoryDataModel
+                         {
+                             Budgeted = c.Budgeted,
+                             AvgSpend = c.Transactions.Where(x => x.TransactionDate >= earliestTransDate && x.TransactionDate < latestTransactionDate).Sum(x => x.Amount),
+                             Id = c.Id,
+                             Name = c.Name,
+                             Remaining = c.Transactions.Where(x => x.TransactionDate >= beginOfMonth && x.TransactionDate < endOfMonth).Sum(x => x.Amount)
+                        };
+
+            list = query2.ToList();
+
+            var list2 = new List<BudgetCategoryDataModel>();
+
+            foreach(BudgetCategoryDataModel item in list)
+            {
+                if(item.AvgSpend > 0)
+                {
+                    item.AvgSpend = item.AvgSpend / 3;
+                }
+                if(item.Budgeted > 0)
+                {
+                    item.Remaining = item.Budgeted - item.Remaining;
+                }
+
+                list2.Add(item);
+            }
+
+            return list2;
         }
 
         // GET api/values/5
@@ -52,12 +82,5 @@ namespace WAI.Controllers
         public void Delete(int id)
         {
         }
-    }
-    public class BudgetCategory {
-        public int Id { get; set; }
-        public String Name { get; set; }
-        public decimal Budgeted { get; set; }
-        public decimal Remaining { get; set; }
-        public decimal AvgSpend { get; set; }
     }
 }

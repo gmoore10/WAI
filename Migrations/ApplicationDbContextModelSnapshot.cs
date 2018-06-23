@@ -50,8 +50,8 @@ namespace WAI.Migrations
                     b.ToTable("BudgetCategories");
 
                     b.HasData(
-                        new { Id = 1, AddedBy = 1, Budgeted = 950.00m, DateAdded = new DateTime(2018, 6, 23, 19, 55, 22, 727, DateTimeKind.Utc), Name = "Mortgage" },
-                        new { Id = 2, AddedBy = 1, Budgeted = 100.00m, DateAdded = new DateTime(2018, 6, 23, 19, 55, 22, 727, DateTimeKind.Utc), Name = "Auto Fuel" }
+                        new { Id = 1, AddedBy = 1, Budgeted = 950.00m, DateAdded = new DateTime(2018, 6, 23, 20, 24, 18, 258, DateTimeKind.Utc), Name = "Mortgage" },
+                        new { Id = 2, AddedBy = 1, Budgeted = 100.00m, DateAdded = new DateTime(2018, 6, 23, 20, 24, 18, 258, DateTimeKind.Utc), Name = "Auto Fuel" }
                     );
                 });
 
@@ -63,10 +63,10 @@ namespace WAI.Migrations
 
                     b.Property<int>("AddedBy");
 
-                    b.Property<int?>("BudgetCategoryId");
-
-                    b.Property<decimal>("Budgeted")
+                    b.Property<decimal>("Amount")
                         .HasColumnType("Money");
+
+                    b.Property<int>("BudgetCategoryId");
 
                     b.Property<DateTime>("DateAdded")
                         .ValueGeneratedOnAddOrUpdate()
@@ -77,10 +77,10 @@ namespace WAI.Migrations
                     b.Property<int?>("LastModifiedBy");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasMaxLength(255);
 
-                    b.Property<decimal>("Remaining")
-                        .HasColumnType("Money");
+                    b.Property<DateTime>("TransactionDate");
 
                     b.Property<byte[]>("ts")
                         .IsConcurrencyToken()
@@ -91,6 +91,12 @@ namespace WAI.Migrations
                     b.HasIndex("BudgetCategoryId");
 
                     b.ToTable("BudgetTransactions");
+
+                    b.HasData(
+                        new { Id = 1, AddedBy = 1, Amount = 182.56m, BudgetCategoryId = 1, DateAdded = new DateTime(2018, 6, 23, 20, 24, 18, 260, DateTimeKind.Utc), Name = "Publix Trip", TransactionDate = new DateTime(2018, 4, 6, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                        new { Id = 2, AddedBy = 1, Amount = 441.22m, BudgetCategoryId = 1, DateAdded = new DateTime(2018, 6, 23, 20, 24, 18, 260, DateTimeKind.Utc), Name = "Weekend Party", TransactionDate = new DateTime(2018, 4, 9, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                        new { Id = 3, AddedBy = 1, Amount = 25.00m, BudgetCategoryId = 1, DateAdded = new DateTime(2018, 6, 23, 20, 24, 18, 260, DateTimeKind.Utc), Name = "Weekend Party 2", TransactionDate = new DateTime(2018, 4, 9, 0, 0, 0, 0, DateTimeKind.Unspecified) }
+                    );
                 });
 
             modelBuilder.Entity("WAI.BudgetTransactionDataModel", b =>

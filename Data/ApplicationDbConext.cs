@@ -51,6 +51,12 @@ namespace WAI.Data
                 new { Id = 1, Name = "Mortgage", Budgeted = 950.00m, AddedBy = 1, DateAdded = DateTime.UtcNow },
                 new { Id = 2, Name = "Auto Fuel", Budgeted = 100.00m, AddedBy = 1, DateAdded = DateTime.UtcNow }
             );
+
+            modelBuilder.Entity<BudgetTransactionDataModel>().HasData(
+                new { Id = 1, Name = "Publix Trip", AddedBy = 1, TransactionDate = new DateTime(2018, 4, 6), BudgetCategoryId = 1, Amount = 182.56m, DateAdded = DateTime.UtcNow },
+                new { Id = 2, Name = "Weekend Party", AddedBy = 1, TransactionDate = new DateTime(2018, 4, 9), BudgetCategoryId = 1, Amount = 441.22m, DateAdded = DateTime.UtcNow },
+                new { Id = 3, Name = "Weekend Party 2", AddedBy = 1, TransactionDate = new DateTime(2018, 4, 9), BudgetCategoryId = 1, Amount = 25.00m, DateAdded = DateTime.UtcNow }
+            );
         }
     }
 }
