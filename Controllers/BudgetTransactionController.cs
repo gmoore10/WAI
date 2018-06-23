@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using WAI.Data;
 
 namespace WAI.Controllers
 {
@@ -11,9 +12,16 @@ namespace WAI.Controllers
     {
         // GET api/values
         [HttpGet]
-        public IEnumerable<BudgetTransaction> Get()
+        public IEnumerable<BudgetTransactionDataModel> Get()
         {
-            List<BudgetTransaction> list = new List<BudgetTransaction>();
+            List<BudgetTransactionDataModel> list = new List<BudgetTransactionDataModel>();
+
+            ApplicationDbContext ctx = new ApplicationDbContext();
+
+            var query = from t in ctx.BudgetTransactions
+                        select t;
+
+            list = query.ToList();
 
             return list;
         }

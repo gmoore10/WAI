@@ -129,6 +129,15 @@ const actions = ({
             alert(err)
             console.log(err)
         }
+    },
+    async editBudgetCategory(state, editedCat) {
+        try {
+            let response = await axios.put('/api/budgetcategory', editedCat)
+            console.log(response)
+        } catch (err) {
+            alert(err)
+            console.log(err)
+        }
     }
 })
 

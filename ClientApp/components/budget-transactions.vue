@@ -49,12 +49,12 @@
                     :width="150">
                 </kendo-grid-column>
                 <kendo-grid-column
-                    field="date"
+                    field="transactionDate"
                     :format="'{0:d}'"
                     title="Date">
                 </kendo-grid-column>
                 <kendo-grid-column
-                    field="category"                    
+                    field="budgetCategoryId"                    
                     :editor="dropdownEditor"
                     :template="categoryName"
                     title="Budget Category">
@@ -62,10 +62,6 @@
                 <kendo-grid-column
                     field="amount"
                     title="Amount">
-                </kendo-grid-column>
-                <kendo-grid-column
-                    field="budgetRemaining"
-                    title="Budget Remaining">
                 </kendo-grid-column>
                 <kendo-grid-column
                     :command="['edit', 'destroy']"
@@ -108,7 +104,7 @@ export default {
             })
         },
         categoryName(dataItem) {
-            return this.$store.getters.categories.filter(x => x.id == dataItem.categoryId)[0].name
+            return this.$store.getters.categories.filter(x => x.id == dataItem.budgetCategoryId)[0].name
         },
         categoryChangeDetected(a, b, c, d, e, f) {
             this.insertedCategoryId = parseInt(a.sender.dataSource.options.data[parseInt(a.sender.selectedIndex)].id)
@@ -147,13 +143,15 @@ export default {
             
             //component.appendTo(container)
 
+            console.log(options)
+
             var guid = kendo.guid();
             
             let openSelect = '<select id="' + guid + '" name="Category" data-type="text" data-bind="value:category">'
             let selectOptions = ""
 
             this.categories.forEach(function(element) {
-                selectOptions = selectOptions + "<option value='" + element.id + "'>" + element.name + "</option>"
+                selectOptions = selectOptions + "<option value='" + element.id + "' " + (options.model.budgetCategoryId === element.id ? 'selected="selected"' : "") + ">" + element.name + "</option>"
             })
 
             let closeSelect = "</select>"

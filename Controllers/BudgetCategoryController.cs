@@ -86,6 +86,32 @@ namespace WAI.Controllers
             }
         }
 
+        [HttpPut]
+        public IActionResult EditCategory([FromBody] BudgetCategoryDataModel updatedCat)
+        {
+            using (ApplicationDbContext ctx = new ApplicationDbContext())
+            {
+                BudgetCategoryDataModel item = ctx.BudgetCategories.FirstOrDefault(x => x.Id == updatedCat.Id);
+                try
+                {
+                    var cat = updatedCat;
+                    item.LastModifiedBy = 1;
+                    item.DateLastModified = DateTime.UtcNow;
+                    item.Budgeted = cat.Budgeted;
+                    item.Name = cat.Name;
+
+                    ctx.BudgetCategories.Update(item);
+                    ctx.SaveChanges();
+
+                    return Ok(item);
+                }
+                catch (Exception e)
+                {
+                    return StatusCode(500, item);
+                }
+            }
+        }
+
         // PUT api/values/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody]string value)

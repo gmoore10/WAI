@@ -98,7 +98,10 @@ export default {
         },
         onSave(ev) {
             console.log(ev)
-            this.$store.commit('editCategory', { id: ev.model.id, name: ev.model.name, budgeted: ev.model.budgeted, remaining: ev.model.remaining, avgspend: ev.model.avgspend })
+            let updatedCat = { id: ev.model.id, name: ev.model.name, budgeted: ev.model.budgeted }
+            this.$store.dispatch('editBudgetCategory', updatedCat).then(() => {
+                this.getBudgetCategories();
+            })
             ev.sender.refresh()
             console.log(ev.sender)
         },
