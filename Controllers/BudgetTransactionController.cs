@@ -26,17 +26,30 @@ namespace WAI.Controllers
             return list;
         }
 
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        // POST api/values
         [HttpPost]
-        public void Post([FromBody]string value)
+        public IActionResult AddTransaction([FromBody] BudgetTransactionDataModel newTrans)
         {
+            using (ApplicationDbContext ctx = new ApplicationDbContext())
+            {
+                try
+                {
+                    var trans = newTrans;
+                    trans.AddedBy = 1;
+                    trans.DateAdded = DateTime.UtcNow;
+                    trans.BudgetCategoryId = newTrans.BudgetCategoryId;
+                    trans.Amount = newTrans.Amount;
+                    trans.Name = newTrans.Name;
+
+                    ctx.BudgetTransactions.Add(trans);
+                    ctx.SaveChanges();
+
+                    return Ok(trans);
+                }
+                catch (Exception e)
+                {
+                    return StatusCode(500, newTrans);
+                }
+            }
         }
 
         // PUT api/values/5

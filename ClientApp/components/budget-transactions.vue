@@ -110,9 +110,11 @@ export default {
             this.insertedCategoryId = parseInt(a.sender.dataSource.options.data[parseInt(a.sender.selectedIndex)].id)
         },
         addTransaction () {
-            let newTrans = { id: Math.floor(Math.random() * 1000000), name: this.insertedTransactionName, date: this.insertedDate, amount: parseInt(this.insertedTransactionAmount), category: this.insertedCategoryId }
-            this.$store.commit('addTransaction', newTrans)
-            this.addTransactionFormVisible = false
+            let newTrans = { name: this.insertedTransactionName, date: this.insertedDate, amount: parseFloat(this.insertedTransactionAmount), BudgetCategoryId: this.insertedCategoryId }
+            this.$store.dispatch('addBudgetTransaction', newTrans).then(() => {
+                this.getBudgetTransactions()
+                this.addTransactionFormVisible = false
+            })            
         },
         transactionsJSON() {
             return JSON.stringify(this.$store.getters.transactions)
