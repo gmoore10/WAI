@@ -5,6 +5,7 @@ import store from './store'
 import { sync } from 'vuex-router-sync'
 import App from 'components/app-root'
 
+Vue.prototype.$http = axios;
 
 import '@progress/kendo-theme-bootstrap/dist/all.css'
 import '@progress/kendo-ui'
@@ -22,8 +23,6 @@ Vue.use(KendoDropdownsInstaller)
 Vue.use(ChartInstaller)
 
 Vue.use(BudgetCategoryDropDown)
-
-Vue.prototype.$http = axios;
 
 sync(store, router)
 

@@ -1,5 +1,6 @@
 ﻿import Vue from 'vue'
 import Vuex from 'vuex'
+import axios from 'axios'
 
 Vue.use(Vuex)
 
@@ -9,8 +10,6 @@ const MAIN_SET_COUNTER = 'MAIN_SET_COUNTER'
 // STATE
 const state = {
     categories: [
-        {id: 1, name: "Mortgage", budgeted: 182.56, remaining: 117.44, avgspend: 150.41},
-        {id: 2, name: "Auto Fuel", budgeted: 182.56, remaining: 117.44, avgspend: 150.41}
     ],
     transactions: [
         { id: 1, name: "Publix Trip", date: "4/6/2018", category: 1, amount: 182.56, budgetRemaining: 117.44 },
@@ -90,11 +89,29 @@ const mutations = {
             return trans.id == deletedId
         })
         state.transactions.splice(state.transactions.indexOf(trans), 1)
+    },
+    alterStateBudgetCategories(state, allCats) {
+        state.categories = []
+        console.log(allCats)
+        Array.from(allCats).forEach(function(element) {
+            console.log(element)
+            state.categories.push(element)
+        })
     }
 }
 
 // ACTIONS
 const actions = ({
+    async getBudgetCategories() {
+        try {
+            let response = await axios.get('/api/budgetcategory')
+            this.commit('alterStateBudgetCategories', response.data)
+        }
+        catch (err) {
+            window.alert(err)
+            console.log(err)
+        }
+    }
 })
 
 // GETTERS
