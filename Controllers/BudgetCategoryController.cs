@@ -112,16 +112,24 @@ namespace WAI.Controllers
             }
         }
 
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE api/values/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult DeleteCategory(int id)
         {
+            using (ApplicationDbContext ctx = new ApplicationDbContext())
+            {
+                BudgetCategoryDataModel item = ctx.BudgetCategories.FirstOrDefault(x => x.Id == id);
+                try
+                {
+                    ctx.BudgetCategories.Remove(item);
+                    ctx.SaveChanges();
+
+                    return Ok();
+                }
+                catch (Exception e)
+                {
+                    return StatusCode(500, item);
+                }
+            }
         }
     }
 }

@@ -107,7 +107,9 @@ export default {
         },
         onRemove(ev) {
             console.log(ev)
-            this.$store.commit('deleteCategory', ev.model.id)
+            this.$store.dispatch('deleteBudgetCategory', ev.model.id).then(() => {
+                this.getBudgetCategories()
+            })
             ev.sender.refresh()
         },
         getBudgetCategories() {
