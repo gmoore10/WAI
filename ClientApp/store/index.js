@@ -120,6 +120,15 @@ const actions = ({
         catch (err) {
             console.log(err)
         }
+    },
+    async addBudgetCategory(state, newCat) {
+        try {
+            let response = await axios.post('/api/budgetcategory', newCat)
+            console.log(response)
+        } catch (err) {
+            alert(err)
+            console.log(err)
+        }
     }
 })
 

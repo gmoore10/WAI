@@ -90,8 +90,10 @@ export default {
 
     methods: {
         addCategory () {
-            let newCat = { id: Math.floor(Math.random() * 1000000), name: this.insertedCategoryName, budgeted: this.insertedCategoryBudgeted, remaining: this.insertedCategoryBudgeted, avgspend: 0.00 }
-            this.$store.commit('addCategory', newCat)
+            let newCat = { name: this.insertedCategoryName, budgeted: this.insertedCategoryBudgeted }
+            this.$store.dispatch('addBudgetCategory', newCat).then(() => {
+                this.getBudgetCategories()
+            })
             this.addCategoryFormVisible = false
         },
         onSave(ev) {

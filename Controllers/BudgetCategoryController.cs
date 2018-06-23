@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WAI.Data;
 
@@ -58,17 +60,30 @@ namespace WAI.Controllers
             return list2;
         }
 
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
         // POST api/values
         [HttpPost]
-        public void Post([FromBody]string value)
+        public IActionResult AddCategory([FromBody] BudgetCategoryDataModel newCat)
         {
+            using (ApplicationDbContext ctx = new ApplicationDbContext())
+            {
+                try
+                {
+                    var cat = newCat;
+                    cat.AddedBy = 1;
+                    cat.DateAdded = DateTime.UtcNow;
+                    cat.Budgeted = newCat.Budgeted;
+                    cat.Name = newCat.Name;
+
+                    ctx.BudgetCategories.Add(cat);
+                    ctx.SaveChanges();
+
+                    return Ok(cat);
+                }
+                catch (Exception e)
+                {
+                    return StatusCode(500, newCat);
+                }
+            }
         }
 
         // PUT api/values/5
