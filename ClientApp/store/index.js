@@ -165,6 +165,15 @@ const actions = ({
             alert(err)
             console.log(err)
         }
+    },
+    async deleteBudgetTransaction(state, deletedTrans) {
+        try {
+            let response = await axios.delete('/api/budgettransaction/' + deletedTrans)
+            console.log(response)
+        } catch (err) {
+            alert(err)
+            console.log(err)
+        }
     }
 })
 

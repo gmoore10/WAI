@@ -129,8 +129,10 @@ export default {
         },
         onRemove(ev) {
             console.log(ev)
-            this.$store.commit('deleteTransaction', ev.model.id)
-            ev.sender.refresh()
+            this.$store.dispatch('deleteBudgetTransaction', ev.model.id).then(() => {
+                this.getBudgetTransactions()
+                ev.sender.refresh()
+            })
         },
         customBoolEditor: function(container, options) {
                 var guid = kendo.guid();

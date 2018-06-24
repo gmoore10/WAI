@@ -66,6 +66,7 @@ namespace WAI.Controllers
                     item.Amount = trans.Amount;
                     item.Name = trans.Name;
                     item.BudgetCategoryId = trans.BudgetCategoryId;
+                    item.TransactionDate = trans.TransactionDate;
 
                     ctx.BudgetTransactions.Update(item);
                     ctx.SaveChanges();
@@ -79,10 +80,24 @@ namespace WAI.Controllers
             }
         }
 
-        // DELETE api/values/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult DeleteTransaction(int id)
         {
+            using (ApplicationDbContext ctx = new ApplicationDbContext())
+            {
+                BudgetTransactionDataModel item = ctx.BudgetTransactions.FirstOrDefault(x => x.Id == id);
+                try
+                {
+                    ctx.BudgetTransactions.Remove(item);
+                    ctx.SaveChanges();
+
+                    return Ok();
+                }
+                catch (Exception e)
+                {
+                    return StatusCode(500, item);
+                }
+            }
         }
     }
 
