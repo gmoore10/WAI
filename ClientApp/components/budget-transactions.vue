@@ -121,8 +121,11 @@ export default {
         },
         onSave(ev) {
             console.log(ev)
-            this.$store.commit('editTransaction', { id: ev.model.id, name: ev.model.name, category: ev.model.category, date: ev.model.date, amount: ev.model.amount, budgetRemaining: ev.model.budgetRemaining})
-            ev.sender.refresh()
+            var editedTrans = { id: ev.model.id, name: ev.model.name, budgetCategoryId: ev.model.budgetCategoryId, date: ev.model.date, amount: ev.model.amount }
+            this.$store.dispatch('editBudgetTransaction', editedTrans).then(() => {
+                this.getBudgetTransactions()
+                ev.sender.refresh()
+            })
         },
         onRemove(ev) {
             console.log(ev)
@@ -149,11 +152,11 @@ export default {
 
             var guid = kendo.guid();
             
-            let openSelect = '<select id="' + guid + '" name="Category" data-type="text" data-bind="value:category">'
+            let openSelect = '<select id="' + guid + '" name="Category" data-type="text" data-bind="value:budgetCategoryId">'
             let selectOptions = ""
 
             this.categories.forEach(function(element) {
-                selectOptions = selectOptions + "<option value='" + element.id + "' " + (options.model.budgetCategoryId === element.id ? 'selected="selected"' : "") + ">" + element.name + "</option>"
+                selectOptions = selectOptions + "<option value='" + element.id + "' " /*+ (options.model.budgetCategoryId === element.id ? 'selected="selected"' : "")*/ + ">" + element.name + "</option>"
             })
 
             let closeSelect = "</select>"

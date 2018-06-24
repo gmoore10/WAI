@@ -52,10 +52,31 @@ namespace WAI.Controllers
             }
         }
 
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        [HttpPut]
+        public IActionResult EditTransaction([FromBody] BudgetTransactionDataModel updatedTrans)
         {
+            using (ApplicationDbContext ctx = new ApplicationDbContext())
+            {
+                BudgetTransactionDataModel item = ctx.BudgetTransactions.FirstOrDefault(x => x.Id == updatedTrans.Id);
+                try
+                {
+                    var trans = updatedTrans;
+                    item.LastModifiedBy = 1;
+                    item.DateLastModified = DateTime.UtcNow;
+                    item.Amount = trans.Amount;
+                    item.Name = trans.Name;
+                    item.BudgetCategoryId = trans.BudgetCategoryId;
+
+                    ctx.BudgetTransactions.Update(item);
+                    ctx.SaveChanges();
+
+                    return Ok(item);
+                }
+                catch (Exception e)
+                {
+                    return StatusCode(500, item);
+                }
+            }
         }
 
         // DELETE api/values/5
