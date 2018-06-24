@@ -1,17 +1,21 @@
 <template>
     <div>
         <h1>Current Month Spend</h1>
-
-
+        <kendo-datasource ref="datasource"
+            :transport-read-data-type="'json'"
+            :transport-read-url="'/api/reports'">
+            </kendo-datasource>
         <kendo-chart ref="chart"
                  :title-text="'Total Spending by Category, June 2018'"
                  :title-position="'bottom'"
                  :chart-area-background="''"
                  :legend-visible="false"
+                 :data-source-ref="'datasource'"
                  :series-defaults-labels-visible="true"
-                 :series-defaults-labels-background="'transparent'"
-                 :series-defaults-labels-template="labeltemplate"
                  :series="series"
+                 :series-defaults-labels-background="'transparent'"
+                 :series-defaults-labels-template="this.chartOptions.labeltemplate"
+                 :series-colors="this.chartOptions.seriesColors"
                  :tooltip-visible="true">
     </kendo-chart>
         
@@ -22,46 +26,20 @@
 export default {
     data() {
         return {
-            labeltemplate: '#= category # $#= value #',
-            series: [{
-                type: 'pie',
-                startAngle: 150,
-                data: [{
-                    category: 'Mortgage',
-                    value: 1500,
-                    color: '#76323F'
-                },
-                {
-                    category: 'Auto Fuel',
-                    value: 160.1,
-                    color: '#AE3644'
-                },
-                {
-                    category: 'Category 3',
-                    value: 22.13,
-                    color: '#FF6C88'
-                },
-                {
-                    category: 'Category 4',
-                    value: 220.45,
-                    color: '#401B22'
-                },
-                {
-                    category: 'Category 5',
-                    value: 561.11,
-                    color: '#E57F7B'
-                }]
-            }]
+            series: [{ field: "value", type: 'pie'}]
+        }
+    },
+    computed: {
+        chartOptions() {
+            return this.$store.getters.chartOptions
         }
     },
 
     methods: {
+        
     },
 
     async created() {
-        // ES2017 async/await syntax via babel-plugin-transform-async-to-generator
-        // TypeScript can also transpile async/await down to ES5
-        
     }
 }
 </script>

@@ -25,7 +25,6 @@
             <button type="submit">Add Transaction</button>
             <button type="button" v-on:click="addTransactionFormVisible = !addTransactionFormVisible">Cancel</button>
         </form>
-
         <div class="grid">
             <kendo-datasource
                 ref="datasource"
@@ -50,6 +49,7 @@
                 </kendo-grid-column>
                 <kendo-grid-column
                     field="transactionDate"
+                    :editor="customDatePickerEditor"
                     :format="'{0:d}'"
                     title="Date">
                 </kendo-grid-column>
@@ -86,7 +86,8 @@ export default {
             insertedTransactionAmount: null,
             insertedCategoryId: null,
             insertedDate: new Date(),
-            currentDate: new Date()
+            currentDate: new Date(),
+            dataReady: false,
         }
     },
     computed: {
@@ -121,7 +122,7 @@ export default {
         },
         onSave(ev) {
             console.log(ev)
-            var editedTrans = { id: ev.model.id, name: ev.model.name, budgetCategoryId: ev.model.budgetCategoryId, date: ev.model.date, amount: ev.model.amount }
+            var editedTrans = { id: ev.model.id, name: ev.model.name, budgetCategoryId: ev.model.budgetCategoryId, transactionDate: ev.model.transactionDate, amount: ev.model.amount }
             this.$store.dispatch('editBudgetTransaction', editedTrans).then(() => {
                 this.getBudgetTransactions()
                 ev.sender.refresh()
@@ -134,48 +135,28 @@ export default {
                 ev.sender.refresh()
             })
         },
-        customBoolEditor: function(container, options) {
-                var guid = kendo.guid();
-                kendo.jQuery('<input class="k-checkbox" id="' + guid + '" type="checkbox" name="Discontinued" data-type="boolean" data-bind="checked:Discontinued">').appendTo(container)
-                kendo.jQuery('<label class="k-checkbox-label" for="' + guid + '">&#8203;</label>').appendTo(container);
+        customDatePickerEditor: function(container, options) {
+            kendo.jQuery('<input required data-bind="value:' + options.field + '"/>')
+                .appendTo(container)
+                .kendoDatePicker();
         },
         dropdownEditor(container, options) {
-            /*console.log(container)
-            console.log(options)
-            var guid = kendo.guid();
-            var ComponentClass = Vue.extend(BudgetCategoryDropDown)
-            var instance = new ComponentClass({ propsData: this.$store.getters.categories})
-            instance.$mount()
-            container.append(instance.$el)*/
-            
-            //component.appendTo(container)
-
-            console.log(options)
-
-            var guid = kendo.guid();
-            
-            let openSelect = '<select id="' + guid + '" name="Category" data-type="text" data-bind="value:budgetCategoryId">'
-            let selectOptions = ""
-
-            this.categories.forEach(function(element) {
-                selectOptions = selectOptions + "<option value='" + element.id + "' " /*+ (options.model.budgetCategoryId === element.id ? 'selected="selected"' : "")*/ + ">" + element.name + "</option>"
-            })
-
-            let closeSelect = "</select>"
-
-            kendo.jQuery(openSelect + selectOptions + closeSelect).appendTo(container)
+            kendo.jQuery('<input required data-text-field="name" data-value-field="id" data-bind="value:budgetCategoryId"/>')
+                .appendTo(container)
+                .kendoDropDownList({
+                autoBind: true,
+                dataSource: this.categories
+            });
         }
     },
     beforeRouteEnter (to, from, next) {
         next(vm => {
-            vm.$store.dispatch('getBudgetCategories').then(() => {
-                next()  
-            })
+            vm.$store.dispatch('getBudgetCategories')
         })
     },
 
     async created() {
-        this.getBudgetTransactions()        
+        this.getBudgetTransactions()
     }
 }
 </script>

@@ -76,18 +76,19 @@ export default {
     },
     methods: {
         transactions(month, year, category) {
+            console.log("Month " + month + " Year: " + year + " Category: " + category)
             const reducer = (accumulator, currentValue) => accumulator[amount] + currentValue
-            console.log(kendo.toString(kendo.parseDate(this.$store.getters.transactions[0].date), "yyyy"))
-            console.log(kendo.toString(kendo.parseDate(this.$store.getters.transactions[0].date), "MMMM"))
+            console.log(kendo.toString(kendo.parseDate(this.$store.getters.transactions[0].transactionDate), "yyyy"))
+            console.log(kendo.toString(kendo.parseDate(this.$store.getters.transactions[0].transactionDate), "MMMM"))
             let trans = this.$store.getters.transactions
             if(month !== null) {
-                trans = trans.filter(x => kendo.toString(kendo.parseDate(x.date), "MMMM") == month)
+                trans = trans.filter(x => kendo.toString(kendo.parseDate(x.transactionDate), "MMMM") == month)
             }
             if(year !== null) {
-                trans = trans.filter(x => kendo.toString(kendo.parseDate(x.date), "yyyy") == year)
+                trans = trans.filter(x => kendo.toString(kendo.parseDate(x.transactionDate), "yyyy") == year)
             }
             if(category !== null) {
-                trans = trans.filter(x => x.category == category)
+                trans = trans.filter(x => x.budgetCategoryId == category)
             }
 
             if(trans.length > 0) {

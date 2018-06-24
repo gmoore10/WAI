@@ -3,42 +3,40 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using WAI.Data;
 
 namespace WAI.Controllers
 {
     [Route("api/[controller]")]
     public class ReportsController : ControllerBase
     {
-        // GET api/values
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IEnumerable<CurrentMonthRecord> GetCurrentMonthRecord()
         {
-            return new string[] { "value1", "value2" };
-        }
+            List<CurrentMonthRecord> list = new List<CurrentMonthRecord>();
 
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
+            using (ApplicationDbContext ctx = new ApplicationDbContext())
+            {
+                DateTime beginDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+                DateTime endDate = new DateTime(DateTime.Now.Year, DateTime.Now.AddMonths(1).Month, 1);
 
-        // POST api/values
-        [HttpPost]
-        public void Post([FromBody]string value)
-        {
-        }
+                var query = from c in ctx.BudgetCategories
+                            select new CurrentMonthRecord
+                            {
+                                category = c.Name,
+                                value = c.Transactions.Where(x => x.TransactionDate >= beginDate && x.TransactionDate < endDate).Sum(x => x.Amount)
+                            };
 
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
-        {
-        }
+                list = query.ToList();
 
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+                return list;
+            }
         }
+    }
+
+    public class CurrentMonthRecord
+    {
+        public string category { get; set; }
+        public decimal value { get; set; }
     }
 }
