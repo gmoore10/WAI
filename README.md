@@ -36,9 +36,9 @@ The base of this project is based on the
 
  # Tests
 
- To run test on this project, perform the following actions:
+ To run tests on this project, perform the following actions:
 
- * Maje sure you have run through the Getting Started section of this readme first.
+ * Make sure you have run through the Getting Started section of this readme first.
  * Navigate to the root folder of the project
  * Run `npm test`
 
