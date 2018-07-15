@@ -28,9 +28,18 @@ The base of this project is based on the
 
 # Getting Started:
  * Clone this repo
- * At the repo's root navigate into the "src" folder
+ * Run `npm install` on the root directory
+ * Navigate into the "src" folder and run `npm install` again
  * Run `dotnet restore`
  * Run `npm install` to restore all dependencies and run the webpack scripts
  * Run the application using `npm run dev`
+
+ # Tests
+
+ To run test on this project, perform the following actions:
+
+ * Maje sure you have run through the Getting Started section of this readme first.
+ * Navigate to the root folder of the project
+ * Run `npm test`
 
 ----
