@@ -14,7 +14,6 @@ The base of this project is based on the
 - **VueJS 2**
   - Vuex (State Store)
 - **Webpack 2**
-  - HMR (Hot Module Replacement/Reloading)
 
 # Prerequisites:
  * nodejs > 6
@@ -29,8 +28,9 @@ The base of this project is based on the
 
 # Getting Started:
  * Clone this repo
- * At the repo's root directory run `dotnet restore`
- * Restore Node dependencies by running `npm install`
- * Run the application (`dotnet run` or `npm run dev`)
+ * At the repo's root navigate into the "src" folder
+ * Run `dotnet restore`
+ * Run `npm install` to restore all dependencies and run the webpack scripts
+ * Run the application using `npm run dev`
 
 ----
